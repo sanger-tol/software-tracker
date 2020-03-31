@@ -25,7 +25,6 @@ log_usage () {
 
 	# Escape into JSON
 	local post_data=$( printf '{"user":"%s","image":"%s","executable":"%s","path":"%s","parameters":"%s"}' "${user}" "${image}" "${executable}" "${path}" "${parameters}" )
-	#post_data=$(printf "%q" "${post_data}" )
 	echo ${post_data}
 
 	# POST to logging API
