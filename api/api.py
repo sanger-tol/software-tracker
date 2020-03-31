@@ -51,9 +51,8 @@ def home():
     """
 
 @app.route('/query', methods=['GET'])
-def test():
+def query():
 	ret = { "status":"OK" }
-	#ret["req"] = request.args
 	user = request.args.get('user', default = '', type = str)
 	before = request.args.get('before', default = '', type = str)
 	after = request.args.get('after', default = '', type = str)
@@ -87,6 +86,12 @@ def test():
 	ret['data'] = []
 	for x in mycursor:
 		ret['data'].append(x)
+	return jsonify(ret)
+
+@app.route('/log', methods=['POST'])
+def log():
+	ret = { "status":"OK" }
+	ret["post"] = request.form['data']
 	return jsonify(ret)
 
 if __name__ == "__main__":
