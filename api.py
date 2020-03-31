@@ -22,6 +22,8 @@ def connect_db(db,schema=''):
 
 
 app = Flask(__name__)
+#app = Flask(__name__, static_url_path='') # If you want to serve static HTML pages
+app.config["CACHE_TYPE"] = "null" # DEACTIVATES CACHE FOR DEVLEOPEMENT; COMMENT OUT FOR PRODUCTION!!!
 app.config["DEBUG"] = True
 
 config = load_config_file()
