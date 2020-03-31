@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, render_template, send_from_directory
+from datetime import datetime
 import re
 import os
 import json
@@ -19,6 +20,27 @@ def connect_db(db,schema=''):
         port=str(config[db]['port']),
         passwd=str(config[db]['password'])
     )
+
+def get_current_timestamp():
+	now = datetime.now()
+	return datetime.strftime(now,'%Y%m%d_%H%M%S')
+
+def save_to_database(json):
+	return
+
+def save_to_file(json):
+	if not 'logfile' in config:
+		return
+
+	print (json)
+	#output = "{user},{timestamp},{image},{path},{executable},{parameters}".format(json)
+	output = f'{json["user"]},{json["timestamp"]},{json["image"]},{json["path"]},{json["executable"]},{json["parameters"]}\n'
+	print (output)
+
+	with open(config["logfile"], "a") as logfile:
+		logfile.write(output)
+
+	return
 
 
 app = Flask(__name__)
@@ -90,10 +112,23 @@ def query():
 		ret['data'].append(x)
 	return jsonify(ret)
 
-@app.route('/log', methods=['POST'])
+@app.route('/log', methods=['GET','POST'])
 def log():
 	ret = { "status":"OK" }
-	ret["post"] = request.form['data']
+	json = request.get_json()
+	if 'executable' in json and 'image' in json and 'user' in json and 'path' in json:
+		if not 'timestamp' in json:
+			json["timestamp"] = get_current_timestamp()
+		if not 'parameters' in json:
+			json["parameters"] = ""
+		else:
+			json["parameters"] = json["parameters"].strip()
+		save_to_database(json)
+		save_to_file(json)
+		ret["json"] = json
+	else:
+		ret["status"] = "ERROR: Missing JSON keys"
+
 	return jsonify(ret)
 
 if __name__ == "__main__":
