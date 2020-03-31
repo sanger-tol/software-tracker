@@ -1,0 +1,28 @@
+<h1>Pathogens Software</h1>
+<p>This is an API to manange software installs by Pathogen Informatics.</p>
+Available API functions:
+<ul>
+	<li>
+		<p><b>query</b> [GET]</p>
+        <p>Queries the database for a specific subset of software invocation.</p>
+		<p>
+			Parameters:
+    		<ul>
+    			<li><tt>user</tt>=username (<i>optional</i>)</li>
+    			<li><tt>before</tt>=timestamp <= VALUE (<i>optional</i>)</li>
+    			<li><tt>after</tt>=timestamp >= VALUE (<i>optional</i>)</li>
+    			<li><tt>image</tt>=image name (<i>optional</i>)</li>
+    			<li><tt>executable</tt>=executable name (<i>optional</i>)</li>
+    			<li><tt>parameters</tt>=parameter string, finds all parameters with that substing (<i>optional</i>)</li>
+    		</ul>
+    	</p>
+	</li>
+    <li>
+        <p><b>log</b> [POST]</p>
+        <p>Logs a software invocation into a log file and/or the database</p>
+        <p>
+            POST data contains JSON with these hash keys:
+            <pre>{"user":"...","image":"...","executable":"...","path":"...","parameters":"..."}</pre>
+        </p>
+    </li>
+</ul>

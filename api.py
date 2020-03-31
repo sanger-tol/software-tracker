@@ -99,34 +99,16 @@ def save_to_logfile(json):
 
 app = Flask(__name__)
 #app = Flask(__name__, static_url_path='') # If you want to serve static HTML pages
-app.config["CACHE_TYPE"] = "null" # DEACTIVATES CACHE FOR DEVLEOPEMENT; COMMENT OUT FOR PRODUCTION!!!
+#app.config["CACHE_TYPE"] = "null" # DEACTIVATES CACHE FOR DEVLEOPEMENT; COMMENT OUT FOR PRODUCTION!!!
 app.config["DEBUG"] = True
 
 config = load_config_file()
 
 @app.route('/', methods=['GET'])
 def home():
-    return """
-    <h1>Pathogens Software</h1>
-    <p>This is an API to manange software installs by Pathogen Informatics.</p>
-    Available API functions:
-    <ul>
-    	<li>
-    		<p><b>query</b> [GET]</p>
-    		<p>
-    			Parameters:
-	    		<ul>
-	    			<li><tt>user</tt>=username (<i>optional</i>)</li>
-	    			<li><tt>before</tt>=timestamp <= VALUE (<i>optional</i>)</li>
-	    			<li><tt>after</tt>=timestamp >= VALUE (<i>optional</i>)</li>
-	    			<li><tt>image</tt>=image name (<i>optional</i>)</li>
-	    			<li><tt>executable</tt>=executable name (<i>optional</i>)</li>
-	    			<li><tt>parameters</tt>=parameter string, finds all parameters with that substing (<i>optional</i>)</li>
-	    		</ul>
-	    	</p>
-    	</li>
-    </ul>
-    """
+	with open('html/index.html', 'r') as file:
+		html = file.read()
+	return str(html)
 
 @app.route('/query', methods=['GET'])
 def query():
