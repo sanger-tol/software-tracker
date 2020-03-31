@@ -3,11 +3,10 @@
 # Example usage:
 # ./log.sh mm6 img thepath exec p1 'p"2' "p'3"
 
-paso_api_log='http://127.0.0.1:5000/log'
+paso_api_log='http://paso.pam.sanger.ac.uk/log'
 
 json_escape () {
 	echo "${1//\"/\\\"}"
-    #printf '%s' "$1" | python -c 'import json,sys; print(json.dumps(sys.stdin.read()))'
 }
 
 log_usage () {
