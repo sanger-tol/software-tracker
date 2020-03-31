@@ -41,19 +41,20 @@ def get_text_id(db,text):
 def get_container_id(db,image):
 	query = "SELECT `id` FROM `container` WHERE `image`=%s"
 	args = [ image ]
-	cursor = db.cursor(buffered=True)
+	cursor = db.cursor()
 	cursor.execute(query, args)
 	for (id) in cursor:
 		return id
 
 	query = "INSERT IGNORE INTO `container` (`image`) VALUES (%s)"
 	args = [ image ]
-	cursor = db.cursor(buffered=True)
+	cursor = db.cursor()
 	cursor.execute(query, args)
+	db.commit()
 	return cursor.lastrowid
 
 def get_executable_id(db,container_id,executable):
-	cursor = db.cursor(buffered=True)
+	cursor = db.cursor()
 	if executable=="":
 		query = "SELECT `id` FROM `executable` WHERE `container_id`=%s AND `name` IS NULL"
 		cursor.execute(query, [container_id] )
@@ -64,13 +65,14 @@ def get_executable_id(db,container_id,executable):
 	for (id) in cursor:
 		return id
 
-	cursor = db.cursor(buffered=True)
+	cursor = db.cursor()
 	if executable=="":
 		query = "INSERT IGNORE INTO `executable` (`container_id`) VALUES (%s)"
 		cursor.execute(query, [container_id] )
 	else:
 		query = "INSERT IGNORE INTO `executable` (`container_id`,`name`) VALUES (%s,%s)"
 		cursor.execute(query, [container_id,executable] )
+	db.commit()
 	return cursor.lastrowid
 
 def save_to_database(json):
@@ -79,14 +81,13 @@ def save_to_database(json):
 	executable_id = get_executable_id ( db , container_id , json["executable"] )
 	path_id = get_text_id ( db , json["path"] )
 	parameters_id = get_text_id ( db , json["parameters"] )
-	
 	query = "INSERT IGNORE INTO `module_usage` (`user`,`timestamp`,`executable_id`,`path`,`parameters`) VALUES (%s,%s,%s,%s,%s)"
 	args = (json["user"],json["timestamp"],executable_id,path_id,parameters_id)
 	cursor = db.cursor()
 	cursor.execute(query, args)
+	db.commit()
 	cursor.close()
 
-	return
 
 def save_to_logfile(json):
 	if not 'logfile' in config:
@@ -94,7 +95,6 @@ def save_to_logfile(json):
 	output = f'{json["user"]},{json["timestamp"]},{json["image"]},{json["path"]},{json["executable"]},{json["parameters"]}\n'
 	with open(config["logfile"], "a") as logfile:
 		logfile.write(output)
-	return
 
 
 app = Flask(__name__)
