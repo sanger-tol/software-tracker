@@ -145,9 +145,10 @@ def query():
 	cursor = db.cursor(buffered=True,dictionary=True)
 	cursor.execute(sql,values)
 	ret['data'] = []
-	for x in cursor:
-		x['timestamp'] = datetime.strftime(x['timestamp'],'%Y-%m-%d %H:%M:%S')
-		ret['data'].append(x)
+	for row in cursor:
+		if 'timestamp' in row
+			row['timestamp'] = datetime.strftime(row['timestamp'],'%Y-%m-%d %H:%M:%S')
+		ret['data'].append(row)
 	return jsonify(ret)
 
 @app.route('/log', methods=['GET','POST'])
