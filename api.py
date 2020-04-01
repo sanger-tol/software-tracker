@@ -119,6 +119,7 @@ def query():
 	image = request.args.get('image', default = '', type = str)
 	executable = request.args.get('executable', default = '', type = str)
 	parameters = request.args.get('parameters', default = '', type = str)
+	max_results = request.args.get('max', default = 500, type = int)
 	db = connect_db('pathdb_ro')
 	sql = [ '1=1' ]
 	values = []
@@ -140,11 +141,12 @@ def query():
 	if parameters!='':
 		sql.append ( 'parameters LIKE "%%%s%%"' )
 		values.append ( parameters )
-	sql = "SELECT * FROM vw_rows WHERE " +' AND '.join ( sql )
+	sql = "SELECT * FROM vw_rows WHERE " +' AND '.join ( sql ) + " LIMIT " + str(max_results)
 	cursor = db.cursor(buffered=True,dictionary=True)
 	cursor.execute(sql,values)
 	ret['data'] = []
 	for x in cursor:
+		x['timestamp'] = datetime.strftime(x['timestamp'],'%Y-%m-%d %H:%M:%S')
 		ret['data'].append(x)
 	return jsonify(ret)
 
