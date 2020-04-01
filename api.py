@@ -96,6 +96,28 @@ def save_to_logfile(json):
 	with open(config["logfile"], "a") as logfile:
 		logfile.write(output)
 
+def render_query_html(rows):
+	if len(rows) == 0:
+		return "<b>No data</b>"
+	html = """
+	<link href="https://tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.4.0/js/bootstrap.min.js"></script>
+	<div class="container">
+	"""
+	html += "<table class='table'><thead>"
+	columns = rows[0].keys()
+	for col in columns:
+		html += "<th>" + col[0].upper() + col[1:] + "</th>"
+	html += "</thead><tbody>"
+	for row in rows:
+		html += "<tr>"
+		for col in columns:
+			html += "<td>"
+			html += str(row[col])
+			html += "</td>"
+		html += "</tr>"
+	html += "</tbody></table></div>"
+	return html
 
 app = Flask(__name__)
 #app = Flask(__name__, static_url_path='') # If you want to serve static HTML pages
@@ -119,6 +141,7 @@ def query():
 	image = request.args.get('image', default = '', type = str)
 	executable = request.args.get('executable', default = '', type = str)
 	parameters = request.args.get('parameters', default = '', type = str)
+	output_format = request.args.get('format', default = 'json', type = str)
 	aggregate = request.args.get('aggregate', default = '', type = str).split(",")
 	limit = request.args.get('limit', default = 500, type = int)
 
@@ -178,7 +201,11 @@ def query():
 		if 'timestamp' in row:
 			row['timestamp'] = datetime.strftime(row['timestamp'],'%Y-%m-%d %H:%M:%S')
 		ret['data'].append(row)
-	return jsonify(ret)
+
+	if output_format == 'json':
+		return jsonify(ret)
+	else:
+		return render_query_html(ret["data"])
 
 @app.route('/log', methods=['GET','POST'])
 def log():
