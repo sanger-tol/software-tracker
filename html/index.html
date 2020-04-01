@@ -1,4 +1,4 @@
-<h1>Pathogens Software</h1>
+<h1>PASO - PAthogens SOftware</h1>
 <p>This is an API to manange software installs by Pathogen Informatics.</p>
 Available API functions:
 <ul>
@@ -9,13 +9,16 @@ Available API functions:
 			Parameters:
     		<ul>
     			<li><tt>user</tt>=username (<i>optional</i>)</li>
-    			<li><tt>before</tt>=timestamp <= VALUE (<i>optional</i>)</li>
-    			<li><tt>after</tt>=timestamp >= VALUE (<i>optional</i>)</li>
+    			<li><tt>before</tt>=timestamp <= VALUE (format <tt>2020-03-01 12:34:56</tt>, shorter allowed. <i>Optional</i>)</li>
+    			<li><tt>after</tt>=timestamp >= VALUE (format <tt>2020-03-01 12:34:56</tt>, shorter allowed. <i>Optional</i>)</li>
     			<li><tt>image</tt>=image name (<i>optional</i>)</li>
     			<li><tt>executable</tt>=executable name (<i>optional</i>)</li>
     			<li><tt>parameters</tt>=parameter string, finds all parameters with that substing (<i>optional</i>)</li>
     		</ul>
     	</p>
+        <p>
+            <i>Example:</i> <a href='./query?user=mm6&before=202004'>runs by mm6 before April 2020</a>
+        </p>
 	</li>
     <li>
         <p><b>log</b> [POST]</p>

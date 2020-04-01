@@ -25,7 +25,6 @@ log_usage () {
 
 	# Escape into JSON
 	local post_data=$( printf '{"user":"%s","image":"%s","executable":"%s","path":"%s","parameters":"%s"}' "${user}" "${image}" "${executable}" "${path}" "${parameters}" )
-	echo ${post_data}
 
 	# POST to logging API
 	curl -i \
@@ -36,4 +35,9 @@ log_usage () {
 	"${paso_api_log}"
 }
 
-log_usage $@
+if [[ $# < 4 ]]
+then
+	echo "USAGE: log.sh USER_NAME IMAGE_NAME PATH_NAME EXECUTABLE_NAME [PARAMETER PARAMETER ...]"
+else
+	log_usage $@
+fi

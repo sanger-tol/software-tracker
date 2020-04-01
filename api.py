@@ -23,7 +23,7 @@ def connect_db(db,schema=''):
 
 def get_current_timestamp():
 	now = datetime.now()
-	return datetime.strftime(now,'%Y%m%d_%H%M%S')
+	return datetime.strftime(now,'%Y-%m-%d %H:%M:%S')
 
 def get_text_id(db,text):
 	query = ("SELECT `id` FROM `text` WHERE `text`=%s")
@@ -55,23 +55,23 @@ def get_container_id(db,image):
 
 def get_executable_id(db,container_id,executable):
 	cursor = db.cursor()
+	args = [ container_id ]
+	query = "SELECT `id` FROM `executable` WHERE `container_id`=%s "
 	if executable=="":
-		query = "SELECT `id` FROM `executable` WHERE `container_id`=%s AND `name` IS NULL"
-		cursor.execute(query, [container_id] )
+		query += "AND `name` IS NULL"
 	else:
-		query = "SELECT `id` FROM `executable` WHERE `container_id`=%s AND `name`=%s"
-		args = [container_id,executable]
-		cursor.execute(query, args )
+		query += "AND `name`=%s"
+		args.append(executable)
+	cursor.execute(query, args )
 	for (id) in cursor:
 		return id
 
 	cursor = db.cursor()
 	if executable=="":
 		query = "INSERT IGNORE INTO `executable` (`container_id`) VALUES (%s)"
-		cursor.execute(query, [container_id] )
 	else:
 		query = "INSERT IGNORE INTO `executable` (`container_id`,`name`) VALUES (%s,%s)"
-		cursor.execute(query, [container_id,executable] )
+	cursor.execute(query, args )
 	db.commit()
 	return cursor.lastrowid
 
@@ -141,10 +141,10 @@ def query():
 		sql.append ( 'parameters LIKE "%%%s%%"' )
 		values.append ( parameters )
 	sql = "SELECT * FROM vw_rows WHERE " +' AND '.join ( sql )
-	mycursor = db.cursor(buffered=True)
-	mycursor.execute(sql,values)
+	cursor = db.cursor(buffered=True,dictionary=True)
+	cursor.execute(sql,values)
 	ret['data'] = []
-	for x in mycursor:
+	for x in cursor:
 		ret['data'].append(x)
 	return jsonify(ret)
 
