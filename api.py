@@ -119,9 +119,16 @@ def query():
 	image = request.args.get('image', default = '', type = str)
 	executable = request.args.get('executable', default = '', type = str)
 	parameters = request.args.get('parameters', default = '', type = str)
-	max_results = request.args.get('max', default = 500, type = int)
+	aggregate = request.args.get('aggregate', default = '', type = str).split(",")
+	limit = request.args.get('limit', default = 500, type = int)
+
+	aggregates = []
+	for agg in aggregate:
+		if agg in ['user','image','executable','year','month','week']:
+			aggregates.append ( agg )
+
 	db = connect_db('pathdb_ro')
-	sql = [ '1=1' ]
+	sql = []
 	values = []
 	if user!='':
 		sql.append ( 'user=%s' )
@@ -141,12 +148,34 @@ def query():
 	if parameters!='':
 		sql.append ( 'parameters LIKE "%%%s%%"' )
 		values.append ( parameters )
-	sql = "SELECT * FROM vw_rows WHERE " +' AND '.join ( sql ) + " LIMIT " + str(max_results)
+
+	if len(aggregates) == 0:
+		sql_base = "SELECT * "
+	else:
+		sql_base = "SELECT "
+		for agg in aggregates:
+			if agg in ['user','image','executable']:
+				sql_base += "`" + agg + "`,"
+			elif agg == 'year':
+				sql_base += "year(`timestamp`) AS `year`,"
+			elif agg == 'month':
+				sql_base += "substr(`timestamp`,1,7) as `month`,"
+			elif agg == 'week':
+				sql_base += "week(`timestamp`) AS `week`,"
+		sql_base += "count(*) AS `count` "
+	sql_base += " FROM vw_rows" ;
+	if len(sql) > 0:
+		sql = sql_base + " WHERE " + ' AND '.join ( sql ) ;
+	if len(aggregates) == 0:
+		sql += " LIMIT " + str(limit)
+	else:
+		sql += " GROUP BY " + ','.join ( aggregates )
 	cursor = db.cursor(buffered=True,dictionary=True)
 	cursor.execute(sql,values)
 	ret['data'] = []
+	#ret['sql'] = sql ;
 	for row in cursor:
-		if 'timestamp' in row
+		if 'timestamp' in row:
 			row['timestamp'] = datetime.strftime(row['timestamp'],'%Y-%m-%d %H:%M:%S')
 		ret['data'].append(row)
 	return jsonify(ret)
