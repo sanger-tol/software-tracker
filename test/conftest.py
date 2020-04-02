@@ -22,11 +22,11 @@ class TestingCursor:
 	__test__ = False
 
 	data = {
-		'text#foo' : [ 123 ],
+		'text#foo' : [ {'id':123} ],
 		'text#bar' : [],
-		'container#foo' : [ 456 ],
+		'container#foo' : [ {'id':456} ],
 		'container#bar' : [] ,
-		'executable#111/foo' : [ 112 ] ,
+		'executable#111/foo' : [ {'id':112} ] ,
 		'executable#111/bar' : [] ,
 	}
 
@@ -49,13 +49,13 @@ class TestingCursor:
 
 		elif query=="""INSERT IGNORE INTO `text` (`text`) VALUES (%s)""":
 			self.lastrowid = 789
-			self.data['text#'+args[0]] = self.lastrowid
+			self.data['text#'+args[0]] = {'id':self.lastrowid}
 		elif query=="""INSERT IGNORE INTO `container` (`image`) VALUES (%s)""":
 			self.lastrowid = 135
-			self.data['container#'+args[0]] = self.lastrowid
+			self.data['container#'+args[0]] = {'id':self.lastrowid}
 		elif query=="""INSERT IGNORE INTO `executable` (`container_id`,`name`) VALUES (%s,%s)""":
 			self.lastrowid = 113
-			self.data['executable#'+str(args[0])+'/'+args[1]] = self.lastrowid
+			self.data['executable#'+str(args[0])+'/'+args[1]] = {'id':self.lastrowid}
 		elif query=="""INSERT IGNORE INTO `logging_event` (`user`,`timestamp`,`image`,`executable`,`path`,`parameters`) VALUES (%s,%s,%s,%s,%s,%s)""":
 			if args == ('xyz9', '2020-03-02 11:22:33', 'the_image.sif', 'run_me', '/nfs/foo/bar', 'the_first "the last" \'eternity\''):
 				self.lastrowid = 12345
@@ -73,7 +73,7 @@ class TestingDB:
 	def __init__(self):
 		return
 
-	def cursor(self):
+	def cursor(self,buffered=False,dictionary=False):
 		return TestingCursor(self)
 
 	def commit(self):

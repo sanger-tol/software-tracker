@@ -3,7 +3,8 @@
 # Example usage:
 # ./log.sh mm6 img thepath exec p1 'p"2' "p'3"
 
-paso_api_log='http://paso.pam.sanger.ac.uk/log'
+#paso_api_log='http://paso.pam.sanger.ac.uk/log'
+paso_api_log='http://127.0.0.1:5000/log'
 
 json_escape () {
 	echo "${1//\"/\\\"}"
