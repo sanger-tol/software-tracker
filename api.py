@@ -5,7 +5,6 @@ import os
 import json
 import mysql.connector
 
-
 def load_config_file(filename="config.json"):
     with open(filename, 'r') as myfile:
         data=myfile.read()
