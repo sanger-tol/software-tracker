@@ -97,7 +97,7 @@ def save_to_database(json):
 
 def save_to_boring_database(json):
 	db = connect_db ( 'pathdb_rw' )
-	query = "INSERT IGNORE INTO `logging_event` (`user`,`timestamp`,`image`,`executable`,`path`,`parameters`) VALUES (%s,%s,%s,%s,%s,%s)"
+	query = "INSERT IGNORE INTO `logging_event` (`uuid`,`user`,`timestamp`,`image`,`executable`,`path`,`parameters`) VALUES (uuid(),%s,%s,%s,%s,%s,%s)"
 	args = (json["user"],json["timestamp"],json["image"],json["executable"],json["path"],json["parameters"])
 	cursor = db.cursor(buffered=True)
 	cursor.execute(query, args)
