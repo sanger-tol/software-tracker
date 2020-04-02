@@ -6,11 +6,14 @@ import json
 import mysql.connector
 
 def load_config_file(filename="config.json"):
-    if app.config['TESTING']:
-    	return {}
-    with open(filename, 'r') as myfile:
-        data=myfile.read()
-    return json.loads(data)
+	if app.config['TESTING']:
+		return {}
+	try:
+		with open(filename, 'r') as myfile:
+			data=myfile.read()
+		return json.loads(data)
+	except: # No file
+		return {}
 
 def connect_db(db,schema=''):
     if app.config['TESTING']:
@@ -135,6 +138,7 @@ app = Flask(__name__)
 #app = Flask(__name__, static_url_path='') # If you want to serve static HTML pages
 #app.config["CACHE_TYPE"] = "null" # DEACTIVATES CACHE FOR DEVLEOPEMENT; COMMENT OUT FOR PRODUCTION!!!
 app.config["DEBUG"] = True
+config = load_config_file()
 
 @app.route('/', methods=['GET'])
 def home():
@@ -242,5 +246,4 @@ def log():
 	return jsonify(ret)
 
 if __name__ == "__main__":
-	config = load_config_file()
 	app.run()
