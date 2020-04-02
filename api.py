@@ -6,6 +6,8 @@ import json
 import mysql.connector
 
 def load_config_file(filename="config.json"):
+    if app.config['TESTING']:
+    	return {}
     with open(filename, 'r') as myfile:
         data=myfile.read()
     return json.loads(data)
@@ -134,8 +136,6 @@ app = Flask(__name__)
 #app.config["CACHE_TYPE"] = "null" # DEACTIVATES CACHE FOR DEVLEOPEMENT; COMMENT OUT FOR PRODUCTION!!!
 app.config["DEBUG"] = True
 
-config = load_config_file()
-
 @app.route('/', methods=['GET'])
 def home():
 	with open('html/index.html', 'r') as file:
@@ -242,4 +242,5 @@ def log():
 	return jsonify(ret)
 
 if __name__ == "__main__":
+	config = load_config_file()
 	app.run()
