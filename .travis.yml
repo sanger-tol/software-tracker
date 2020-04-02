@@ -1,0 +1,11 @@
+dist: bionic
+language: python
+python:
+  - "3.6"
+install:
+  - pip install pipenv flask mysql-connector datetime pytest
+# command to run tests
+script:
+  - pytest
+virtualenv:
+  system_site_packages: true
