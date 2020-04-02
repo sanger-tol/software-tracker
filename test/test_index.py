@@ -36,25 +36,3 @@ def test_get_executable_id(client):
 	assert(id==112)
 	id = get_executable_id(db,111,'bar') # New
 	assert(id==113)
-	
-'''
-def call_raw(client, path, params):
-    url = path + '?' + urlencode(params)
-    response = client.get(url)
-    return response
-
-def call(client, path, params):
-	return call_raw(client, path, params).data.decode('utf-8')
-
-def call_json(client, path, params):
-	return json.loads(call(client, path, params))
-
-def test_send_js(client):
-	result = call(client,'/js/jquery.min.js',{})
-	assert(str(result).startswith('/*! jQuery v'))
-
-def test_api_study(client):
-	# Can't really test this without DB access, so...
-	result = call_json(client,'/api/study/123',{})
-	assert(result['status']=="OK")
-'''
