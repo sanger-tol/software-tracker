@@ -11,6 +11,7 @@ def load_config_file(filename="config.json"):
     return json.loads(data)
 
 def connect_db(db,schema=''):
+    print ( app.config['TESTING'] )
     if schema == '':
         schema = str(config['databases'][db]['schema'])
     return mysql.connector.connect(
