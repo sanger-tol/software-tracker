@@ -56,6 +56,11 @@ class TestingCursor:
 		elif query=="""INSERT IGNORE INTO `executable` (`container_id`,`name`) VALUES (%s,%s)""":
 			self.lastrowid = 113
 			self.data['executable#'+str(args[0])+'/'+args[1]] = self.lastrowid
+		elif query=="""INSERT IGNORE INTO `logging_event` (`user`,`timestamp`,`image`,`executable`,`path`,`parameters`) VALUES (%s,%s,%s,%s,%s,%s)""":
+			if args == ('xyz9', '2020-03-02 11:22:33', 'the_image.sif', 'run_me', '/nfs/foo/bar', 'the_first "the last" \'eternity\''):
+				self.lastrowid = 12345
+			else:
+				self.lastrowid = 0
 
 		else:
 			print ("TestingCursor::execute UNRECOGNIZED")

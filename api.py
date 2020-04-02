@@ -5,7 +5,6 @@ import os
 import json
 import mysql.connector
 
-
 def load_config_file(filename="config.json"):
     with open(filename, 'r') as myfile:
         data=myfile.read()
@@ -91,6 +90,14 @@ def save_to_database(json):
 	db.commit()
 	cursor.close()
 
+def save_to_boring_database(json):
+	db = connect_db ( 'pathdb_rw' )
+	query = "INSERT IGNORE INTO `logging_event` (`user`,`timestamp`,`image`,`executable`,`path`,`parameters`) VALUES (%s,%s,%s,%s,%s,%s)"
+	args = (json["user"],json["timestamp"],json["image"],json["executable"],json["path"],json["parameters"])
+	cursor = db.cursor()
+	cursor.execute(query, args)
+	db.commit()
+	return cursor.lastrowid
 
 def save_to_logfile(json):
 	if not 'logfile' in config:
@@ -225,6 +232,7 @@ def log():
 		json["image"] = json["image"].strip()
 		json["user"] = json["user"].strip()
 		json["path"] = json["path"].strip()
+		save_to_boring_database(json)
 		save_to_database(json)
 		save_to_logfile(json)
 		ret["json"] = json
