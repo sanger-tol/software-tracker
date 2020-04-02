@@ -5,13 +5,15 @@ import os
 import json
 import mysql.connector
 
+
 def load_config_file(filename="config.json"):
     with open(filename, 'r') as myfile:
         data=myfile.read()
     return json.loads(data)
 
 def connect_db(db,schema=''):
-    print ( app.config['TESTING'] )
+    if app.config['TESTING']:
+    	return app.test_db
     if schema == '':
         schema = str(config['databases'][db]['schema'])
     return mysql.connector.connect(
