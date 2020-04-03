@@ -1,4 +1,0 @@
-ignore:
-  - "test/*"
-  - "html/*"
-  - "**/__init__.py"
