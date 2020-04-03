@@ -22,7 +22,7 @@ class TestingCursor:
 	__test__ = False
 
 	data = {
-		'text#foo' : [ {'id':123} ],
+		'logging_event#foo' : [ {'id':123} ],
 	}
 
 	def __init__(self,db):
