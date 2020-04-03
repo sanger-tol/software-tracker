@@ -41,3 +41,12 @@ def test_save_to_database(client):
 	}
 	id = save_to_database(json)
 	assert(id==12345)
+
+def test_query(client):
+	# Fake result
+	j = call_json(client,'/query',{'user':'mm6'})
+	assert(j=={'data': [{'id': 1}], 'status': 'OK'})
+
+	# No result
+	j = call_json(client,'/query',{'user':'no such user'})
+	assert(j=={'data': [], 'status': 'OK'})

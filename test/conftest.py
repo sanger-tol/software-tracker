@@ -21,10 +21,6 @@ class TestingCursorIterator:
 class TestingCursor:
 	__test__ = False
 
-	data = {
-		'logging_event#foo' : [ {'id':123} ],
-	}
-
 	def __init__(self,db):
 		self._db = db
 		self._rows = []
@@ -41,6 +37,10 @@ class TestingCursor:
 				self.lastrowid = 12345
 			else:
 				self.lastrowid = 0
+
+		elif query=="""SELECT * FROM `logging_event` WHERE user=%s LIMIT 500""":
+			if args==['mm6']:
+				self.results.append ( { 'id':1 } )
 
 		else:
 			print ("TestingCursor::execute UNRECOGNIZED")

@@ -137,7 +137,7 @@ def query():
 			elif agg == 'week':
 				sql_base += "week(`timestamp`) AS `week`,"
 		sql_base += "count(*) AS `count` "
-	sql_base += " FROM `logging_event`" ;
+	sql_base += "FROM `logging_event`" ;
 	if len(sql) > 0:
 		sql = sql_base + " WHERE " + ' AND '.join ( sql ) ;
 	else:
