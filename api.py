@@ -137,9 +137,11 @@ def query():
 			elif agg == 'week':
 				sql_base += "week(`timestamp`) AS `week`,"
 		sql_base += "count(*) AS `count` "
-	sql_base += " FROM vw_rows" ;
+	sql_base += " FROM `logging_event`" ;
 	if len(sql) > 0:
 		sql = sql_base + " WHERE " + ' AND '.join ( sql ) ;
+	else:
+		sql = sql_base
 	if len(aggregates) == 0:
 		sql += " LIMIT " + str(limit)
 	else:
@@ -147,7 +149,6 @@ def query():
 	cursor = db.cursor(buffered=True,dictionary=True)
 	cursor.execute(sql,values)
 	ret['data'] = []
-	#ret['sql'] = sql ;
 	for row in cursor:
 		if 'timestamp' in row:
 			row['timestamp'] = datetime.strftime(row['timestamp'],'%Y-%m-%d %H:%M:%S')
@@ -174,7 +175,7 @@ def log():
 		json["user"] = json["user"].strip()
 		json["path"] = json["path"].strip()
 		save_to_database(json)
-		save_to_logfile(json)
+		#save_to_logfile(json)
 		ret["json"] = json
 	else:
 		ret["status"] = "ERROR: Missing JSON keys"
