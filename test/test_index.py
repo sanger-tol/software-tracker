@@ -64,6 +64,9 @@ def test_render_query_html(client):
 	assert("""<table class='table'><thead><th>Foo</th><th>Baz</th></thead><tbody><tr><td>bar</td><td>1</td></tr></tbody></table></div>""" in html)
 
 def test_log(client):
+	j = client.post('/log',json={}).get_json()
+	assert(j=={'status': 'ERROR: Missing JSON keys'})
+
 	params = {
 		'executable':'foo',
 		'image':'bar',
@@ -71,7 +74,5 @@ def test_log(client):
 		'path':'/baz',
 		'timestamp':'2020-04-03 14:45:40' # Passing timestamp to compare result more easily
 	}
-	#j = call_json(client,'/log',params)
-	rv = client.post('/log',json=params)
-	j = rv.get_json()
+	j = client.post('/log',json=params).get_json()
 	assert(j=={'json': {'executable': 'foo', 'image': 'bar', 'parameters': '', 'path': '/baz', 'timestamp': '2020-04-03 14:45:40', 'user': 'mm6'}, 'status': 'OK'})
