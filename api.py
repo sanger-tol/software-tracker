@@ -15,7 +15,8 @@ def load_config_file(filename="config.json"):
 	except: # No file
 		return {}
 
-def connect_db(db,schema=''):
+def connect_db(db,schema=''): # pragma: no cover
+	# Codecov uses app.test_db so no test can be run easily on travis
     if app.config['TESTING']:
     	return app.test_db
     if schema == '':
@@ -40,13 +41,6 @@ def save_to_database(json):
 	cursor.execute(query, args)
 	db.commit()
 	return cursor.lastrowid
-
-def save_to_logfile(json):
-	if not 'logfile' in config:
-		return
-	output = f'{json["user"]},{json["timestamp"]},{json["image"]},{json["path"]},{json["executable"]},{json["parameters"]}\n'
-	with open(config["logfile"], "a") as logfile:
-		logfile.write(output)
 
 def render_query_html(rows):
 	if len(rows) == 0:
@@ -84,7 +78,8 @@ def home():
 	return str(html)
 
 @app.route('/query', methods=['GET'])
-def query():
+def query(): # pragma: no cover
+	# codecov via test_query()
 	ret = { "status":"OK" }
 	user = request.args.get('user', default = '', type = str)
 	before = request.args.get('before', default = '', type = str)
@@ -160,7 +155,8 @@ def query():
 		return render_query_html(ret["data"])
 
 @app.route('/log', methods=['GET','POST'])
-def log():
+def log(): # pragma: no cover
+	# codecov done in test_log()
 	ret = { "status":"OK" }
 	json = request.get_json()
 	if 'executable' in json and 'image' in json and 'user' in json and 'path' in json:
@@ -175,7 +171,6 @@ def log():
 		json["user"] = json["user"].strip()
 		json["path"] = json["path"].strip()
 		save_to_database(json)
-		#save_to_logfile(json)
 		ret["json"] = json
 	else:
 		ret["status"] = "ERROR: Missing JSON keys"

@@ -22,8 +22,12 @@ def call_json(client, path, params):
 
 #-----
 
-def test_main_page(client):
+def test_main_page_via_client(client):
 	result = call(client,'/',{})
+	assert('PAthogens SOftware' in str(result))
+
+def test_main_page_directly(client):
+	result = home()
 	assert('PAthogens SOftware' in str(result))
 
 def test_get_current_timestamp(client):
@@ -50,3 +54,24 @@ def test_query(client):
 	# No result
 	j = call_json(client,'/query',{'user':'no such user'})
 	assert(j=={'data': [], 'status': 'OK'})
+
+def test_render_query_html(client):
+	assert(render_query_html([])=="""<b>No data</b>""")
+
+	rows = [ {"foo":"bar","baz":1} ]
+	html = render_query_html(rows)
+	assert("bootstrap" in html)
+	assert("""<table class='table'><thead><th>Foo</th><th>Baz</th></thead><tbody><tr><td>bar</td><td>1</td></tr></tbody></table></div>""" in html)
+
+def test_log(client):
+	params = {
+		'executable':'foo',
+		'image':'bar',
+		'user':'mm6',
+		'path':'/baz',
+		'timestamp':'2020-04-03 14:45:40' # Passing timestamp to compare result more easily
+	}
+	#j = call_json(client,'/log',params)
+	rv = client.post('/log',json=params)
+	j = rv.get_json()
+	assert(j=={'json': {'executable': 'foo', 'image': 'bar', 'parameters': '', 'path': '/baz', 'timestamp': '2020-04-03 14:45:40', 'user': 'mm6'}, 'status': 'OK'})
