@@ -1,4 +1,4 @@
-[run]
-omit =
-    /test/*
-    /html/*
+ignore:
+  - "test/*"
+  - "html/*"
+  - "**/__init__.py"
