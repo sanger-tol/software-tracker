@@ -32,70 +32,7 @@ def get_current_timestamp():
 	now = datetime.now()
 	return datetime.strftime(now,'%Y-%m-%d %H:%M:%S')
 
-def get_text_id(db,text):
-	query = ("SELECT `id` FROM `text` WHERE `text`=%s")
-	args = [ text ]
-	cursor = db.cursor(buffered=True,dictionary=True)
-	cursor.execute(query, args)
-	for row in cursor:
-		return row['id']
-
-	query = "INSERT IGNORE INTO `text` (`text`) VALUES (%s)"
-	cursor = db.cursor(buffered=True,dictionary=True)
-	cursor.execute(query, args)
-	return cursor.lastrowid
-
-def get_container_id(db,image):
-	query = "SELECT `id` FROM `container` WHERE `image`=%s"
-	args = [ image ]
-	cursor = db.cursor(buffered=True,dictionary=True)
-	cursor.execute(query, args)
-	for row in cursor:
-		return row['id']
-
-	query = "INSERT IGNORE INTO `container` (`image`) VALUES (%s)"
-	args = [ image ]
-	cursor = db.cursor(buffered=True,dictionary=True)
-	cursor.execute(query, args)
-	db.commit()
-	return cursor.lastrowid
-
-def get_executable_id(db,container_id,executable):
-	cursor = db.cursor(buffered=True,dictionary=True)
-	args = [ container_id ]
-	query = "SELECT `id` FROM `executable` WHERE `container_id`=%s "
-	if executable=="":
-		query += "AND `name` IS NULL"
-	else:
-		query += "AND `name`=%s"
-		args.append(executable)
-	cursor.execute(query, args )
-	for row in cursor:
-		return row['id']
-
-	cursor = db.cursor(buffered=True,dictionary=True)
-	if executable=="":
-		query = "INSERT IGNORE INTO `executable` (`container_id`) VALUES (%s)"
-	else:
-		query = "INSERT IGNORE INTO `executable` (`container_id`,`name`) VALUES (%s,%s)"
-	cursor.execute(query, args )
-	db.commit()
-	return cursor.lastrowid
-
 def save_to_database(json):
-	db = connect_db ( 'pathdb_rw' )
-	container_id = get_container_id ( db , json["image"] )
-	executable_id = get_executable_id ( db , container_id , json["executable"] )
-	path_id = get_text_id ( db , json["path"] )
-	parameters_id = get_text_id ( db , json["parameters"] )
-	query = "INSERT IGNORE INTO `module_usage` (`user`,`timestamp`,`executable_id`,`path`,`parameters`) VALUES (%s,%s,%s,%s,%s)"
-	args = (json["user"],json["timestamp"],executable_id,path_id,parameters_id)
-	cursor = db.cursor(buffered=True,dictionary=True)
-	cursor.execute(query, args)
-	db.commit()
-	return cursor.lastrowid
-
-def save_to_boring_database(json):
 	db = connect_db ( 'pathdb_rw' )
 	query = "INSERT IGNORE INTO `logging_event` (`uuid`,`user`,`timestamp`,`image`,`executable`,`path`,`parameters`) VALUES (uuid(),%s,%s,%s,%s,%s,%s)"
 	args = (json["user"],json["timestamp"],json["image"],json["executable"],json["path"],json["parameters"])
@@ -236,7 +173,6 @@ def log():
 		json["image"] = json["image"].strip()
 		json["user"] = json["user"].strip()
 		json["path"] = json["path"].strip()
-		save_to_boring_database(json)
 		save_to_database(json)
 		save_to_logfile(json)
 		ret["json"] = json

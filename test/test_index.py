@@ -29,28 +29,7 @@ def test_main_page(client):
 def test_get_current_timestamp(client):
 	assert(len(get_current_timestamp())==19)
 
-def test_get_text_id(client):
-	db = connect_db('dummy')
-	id = get_text_id(db,'foo') # Exists
-	assert(id==123)
-	id = get_text_id(db,'bar') # New
-	assert(id==789)
-
-def test_get_container_id(client):
-	db = connect_db('dummy')
-	id = get_container_id(db,'foo') # Exists
-	assert(id==456)
-	id = get_container_id(db,'bar') # New
-	assert(id==135)
-
-def test_get_executable_id(client):
-	db = connect_db('dummy')
-	id = get_executable_id(db,111,'foo') # Exists
-	assert(id==112)
-	id = get_executable_id(db,111,'bar') # New
-	assert(id==113)
-
-def test_save_to_boring_database(client):
+def test_save_to_database(client):
 	db = connect_db('dummy')
 	json = {
 		'user':'xyz9',
@@ -60,5 +39,5 @@ def test_save_to_boring_database(client):
 		'path':'/nfs/foo/bar',
 		'parameters':"""the_first "the last" 'eternity'"""
 	}
-	id = save_to_boring_database(json)
+	id = save_to_database(json)
 	assert(id==12345)
