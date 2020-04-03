@@ -42,7 +42,8 @@ class TestingCursor:
 			if args==['mm6']:
 				self.results.append ( { 'id':1 } )
 
-		else:
+		else:  # pragma: no cover
+			# For debugging tests
 			print ("TestingCursor::execute UNRECOGNIZED")
 			print (query)
 			print (args)

@@ -6,8 +6,6 @@ import json
 import mysql.connector
 
 def load_config_file(filename="config.json"):
-	if app.config['TESTING']:
-		return {}
 	try:
 		with open(filename, 'r') as myfile:
 			data=myfile.read()
@@ -177,5 +175,5 @@ def log(): # pragma: no cover
 
 	return jsonify(ret)
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
 	app.run()
