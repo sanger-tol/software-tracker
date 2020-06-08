@@ -9,6 +9,7 @@ CREATE TABLE `logging_event` (
   `executable` varchar(255) DEFAULT NULL,
   `path` varchar(255) DEFAULT NULL,
   `parameters` mediumtext,
+  `origin` set('api','logfile') NOT NULL DEFAULT 'api',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uuid` (`uuid`),
   KEY `user` (`user`),
