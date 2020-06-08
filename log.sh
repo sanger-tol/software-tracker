@@ -28,7 +28,7 @@ log_usage () {
 	local post_data=$( printf '{"user":"%s","image":"%s","executable":"%s","path":"%s","parameters":"%s"}' "${user}" "${image}" "${executable}" "${path}" "${parameters}" )
 
 	# POST to logging API
-	curl -i \
+	curl --silent \
 	-H "Accept: application/json" \
 	-H "Content-Type:application/json" \
 	-X POST \
