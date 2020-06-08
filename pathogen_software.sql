@@ -16,4 +16,4 @@ CREATE TABLE `logging_event` (
   KEY `image` (`image`),
   KEY `timestamp` (`timestamp`),
   KEY `user_2` (`user`,`image`,`timestamp`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
