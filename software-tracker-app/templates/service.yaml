@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "software-tracker-app.fullname" . }}
+  labels:
+    {{- include "software-tracker-app.labels" . | nindent 4 }}
+  {{- if eq .Values.service.type  "LoadBalancer" }}
+  annotations:
+    service.beta.kubernetes.io/openstack-internal-load-balancer: "true"
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "software-tracker-app.selectorLabels" . | nindent 4 }}
