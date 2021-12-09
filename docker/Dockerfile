@@ -26,9 +26,10 @@ ARG APP_DIR=/home/$APP_USER/application
 RUN mkdir -p ${APP_DIR}
 WORKDIR ${APP_DIR}
 
-COPY html/ ${APP_DIR}/html
-COPY api.py ${APP_DIR}
-COPY start_production_server.sh ${APP_DIR}
+COPY ../html ${APP_DIR}/html
+COPY ../api.py ${APP_DIR}
+COPY ../start_production_server.sh ${APP_DIR}
+COPY ../config.json ${APP_DIR}
 
 CMD ./start_production_server.sh
 
