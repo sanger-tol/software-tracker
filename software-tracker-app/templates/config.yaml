@@ -12,7 +12,7 @@ data:
           "host": "{{ .Values.database.host }}",
           "port": "{{ .Values.database.port }}",
           "schema":"software_tracker",
-          "user": "{{ .Values.database.roUser }}",,
+          "user": "{{ .Values.database.roUser }}",
           "password": "{{ .Values.database.roPassword }}",
         } ,
         "pathdb_rw" : {
