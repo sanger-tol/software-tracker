@@ -11,4 +11,11 @@ helm install software-tracker-app-tol software-tracker-app --dry-run > dump.yaml
 
 helm install software-tracker-app-tol software-tracker-app
 
+NOTES:
+1. Get the application URL by running these commands:
+NodePort Service:
+  export NODE_PORT=$(kubectl get --namespace pshpc -o jsonpath="{.spec.ports[0].nodePort}" services software-tracker-app-tol)
+  export NODE_IP=$(kubectl get nodes --namespace pshpc -o jsonpath="{.items[0].status.addresses[2].address}")
+  echo http://$NODE_IP:$NODE_PORT
+
 ```

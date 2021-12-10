@@ -9,18 +9,18 @@ data:
     {
       "databases" : {
         "pathdb_ro" : {
-          "host":"172.27.23.184",
-          "port":"30098",
+          "host": "{{ .Values.database.host }}",
+          "port": "{{ .Values.database.port }}",,
           "schema":"software_tracker",
-          "user":"tol",
-          "password":""
+          "user": "{{ .Values.database.roUser }}",,
+          "password": "{{ .Values.database.roPassword }}",
         } ,
         "pathdb_rw" : {
-          "host":"172.27.23.184",
-          "port":"30098",
-          "schema":"software_tracker",
-          "user":"toladmin",
-          "password":"tol"
+          "host": "{{ .Values.database.host }}",
+          "port": "{{ .Values.database.port }}",
+          "schema": "software_tracker",
+          "user": "{{ .Values.database.rwUser }}",
+          "password": "{{ .Values.database.rwPassword }}"
         }
       } ,
       "passwords" : {

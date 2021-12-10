@@ -85,3 +85,11 @@ affinity: {}
 volumes: []
 
 volumeMounts: []
+
+database:
+  host: 172.27.23.184
+  port: 30098
+  roUser: tol
+  roPassword: ""
+  rwUser: toladmin
+  rwPassword: tol
