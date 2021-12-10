@@ -33,7 +33,7 @@ The sqls added to the values as initdbScripts.
 k create namespace pshpc (if not created yet)
 k config set-context --current --namespace=pshpc
 
-helm install tracker-db bitnami/mysql -f mysql/tracker-db-dev.yaml
+helm install tracker-db bitnami/mysql -f mysql/software-tracker-db.yaml.yaml
 
 ROOT_PASSWORD=$(kubectl get secret --namespace pshpc tracker-db-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode)
 helm upgrade --namespace pshpc tracker-db bitnami/mysql --set auth.rootPassword=$ROOT_PASSWORD
