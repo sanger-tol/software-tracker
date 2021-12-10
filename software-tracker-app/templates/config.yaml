@@ -10,7 +10,7 @@ data:
       "databases" : {
         "pathdb_ro" : {
           "host": "{{ .Values.database.host }}",
-          "port": "{{ .Values.database.port }}",,
+          "port": "{{ .Values.database.port }}",
           "schema":"software_tracker",
           "user": "{{ .Values.database.roUser }}",,
           "password": "{{ .Values.database.roPassword }}",
