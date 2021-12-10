@@ -10,7 +10,7 @@ auth:
   password: "tol2"
 
 initdbScripts:
-  extra_users.sql: |
+  extra_users_table.sql: |
     CREATE USER IF NOT EXISTS "toladmin"@"%" IDENTIFIED BY "tol";
     GRANT ALL PRIVILEGES ON *.* TO "toladmin"@"%";
     CREATE USER IF NOT EXISTS "tol"@"%";
