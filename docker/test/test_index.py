@@ -1,13 +1,11 @@
 import pytest
-from flask import Flask, jsonify, request, render_template, send_from_directory
 from urllib.parse import urlencode
 import re
 import sys, os
 import json
-import mysql.connector
 import base64
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/../')
-from api import *
+from docker.api import *
 
 def call_raw(client, path, params):
     url = path + '?' + urlencode(params)
