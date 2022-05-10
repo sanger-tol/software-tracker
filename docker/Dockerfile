@@ -29,6 +29,5 @@ WORKDIR ${APP_DIR}
 COPY html ${APP_DIR}/html
 COPY api.py ${APP_DIR}
 COPY start_production_server.sh ${APP_DIR}
-COPY config.json ${APP_DIR}
 
 CMD ./start_production_server.sh
