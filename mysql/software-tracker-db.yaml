@@ -6,17 +6,10 @@ primary:
     nodePort: 30098
 
 auth:
-  username: "tol2"
-  password: "tol2"
+  database: software_tracker
 
 initdbScripts:
   extra_users_table.sql: |
-    CREATE USER IF NOT EXISTS "toladmin"@"%" IDENTIFIED BY "tol";
-    GRANT ALL PRIVILEGES ON *.* TO "toladmin"@"%";
-    CREATE USER IF NOT EXISTS "tol"@"%";
-    GRANT EXECUTE, LOCK TABLES, SELECT, SHOW VIEW ON *.* TO "tol"@"%";
-    GRANT PROCESS, SHOW DATABASES ON *.* TO "tol"@"%";
-    CREATE DATABASE IF NOT EXISTS software_tracker;
     USE software_tracker;
     CREATE TABLE IF NOT EXISTS `logging_event` (
     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
