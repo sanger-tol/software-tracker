@@ -32,5 +32,3 @@ COPY ../start_production_server.sh ${APP_DIR}
 COPY ../config.json ${APP_DIR}
 
 CMD ./start_production_server.sh
-
-
