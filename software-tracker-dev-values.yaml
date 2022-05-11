@@ -1,9 +1,3 @@
-image:
-  repository: guoyingqi/software-tracker
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
-
 ingress:
   enabled: true
   className: ""
@@ -22,7 +16,7 @@ ingress:
   #      - chart-example.local
 
 database:
-  host: software-tracker-db-tol-mysql.pshpc.svc.cluster.local # 172.27.23.184
+  host: software-tracker-db-tol-mysql.tol-software-tracking.svc.cluster.local # 172.27.23.184
   port:  3306 # 30098
   roUser: tol
   roPassword: ""
