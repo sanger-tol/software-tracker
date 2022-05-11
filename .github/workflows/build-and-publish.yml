@@ -63,7 +63,7 @@ jobs:
         with:
           context: ./src
           push: true
-          tags: ${{ steps.meta.outputs.images }}:latest
+          tags: ${{ steps.meta.inputs.images }}:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Image digest
