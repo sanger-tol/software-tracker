@@ -4,7 +4,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -qq -y && \
     apt-get install -qq -y  python3-pip \
                             python3-flask \
-                            gunicorn3 \
                             cifs-utils && \
     apt -y autoremove
 
@@ -19,7 +18,7 @@ RUN set -ex; \
 
 USER $APP_USER
 
-RUN python3 -m pip install --user pipenv flask mysql-connector datetime
+RUN python3 -m pip install --user pipenv flask mysql-connector datetime gunicorn
 ENV PATH=/home/$APP_USER/.local/bin:$PATH
 
 ARG APP_DIR=/home/$APP_USER/application
