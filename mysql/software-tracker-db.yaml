@@ -10,6 +10,9 @@ auth:
 
 initdbScripts:
   extra_users_table.sql: |
+    CREATE USER IF NOT EXISTS "tol"@"%";
+    GRANT EXECUTE, LOCK TABLES, SELECT, SHOW VIEW ON *.* TO "tol"@"%";
+    GRANT PROCESS, SHOW DATABASES ON *.* TO "tol"@"%";
     USE software_tracker;
     CREATE TABLE IF NOT EXISTS `logging_event` (
     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

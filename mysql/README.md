@@ -19,8 +19,9 @@ Default values here: https://github.com/bitnami/charts/blob/master/bitnami/mysql
 Create a local one to override some values:  
 mysql/software-tracker-db.yaml
 
-There will be a root user created with password.
-Another user toladmin created with password, which values will be set in the command line.
+There will be a `root` user created with password.  
+Another user `toladmin` created with password, which values will be set in the command line.  
+And also a readonly user `tol`.
 
 ## How to trigger additional initial SQL in Kubernetes
 The sqls added to the values as initdbScripts.
@@ -30,11 +31,13 @@ The sqls added to the values as initdbScripts.
 k create ns tol-software-tracking (if not created yet)
 k config set-context --current --namespace=tol-software-tracking
 
+# Add password value when you run
 helm install software-tracker-db-tol bitnami/mysql -f mysql/software-tracker-db.yaml \
 --set "auth.username=toladmin" \
 --set "auth.password=" \
 --dry-run
 
+# Add password value when you run
 helm install software-tracker-db-tol bitnami/mysql -f mysql/software-tracker-db.yaml \
 --set "auth.username=toladmin" \
 --set "auth.password=" \
