@@ -1,3 +1,4 @@
+# Create DNS entris for the paso sercices
 ```
 # ask for password if you don't know
 export PASSWORD=
