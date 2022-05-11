@@ -34,13 +34,13 @@ k config set-context --current --namespace=tol-software-tracking
 # Add password value when you run
 helm install software-tracker-db-tol bitnami/mysql -f mysql/software-tracker-db.yaml \
 --set "auth.username=toladmin" \
---set "auth.password=" \
+--set "auth.password= " \
 --dry-run
 
 # Add password value when you run
 helm install software-tracker-db-tol bitnami/mysql -f mysql/software-tracker-db.yaml \
 --set "auth.username=toladmin" \
---set "auth.password=" \
+--set "auth.password= " \
 
 ROOT_PASSWORD=$(kubectl get secret --namespace pshpc tracker-db-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode)
 helm upgrade --namespace tol-software-tracking software-tracker-db-tol bitnami/mysql --set auth.rootPassword=$ROOT_PASSWORD
