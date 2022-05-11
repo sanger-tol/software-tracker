@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - 'main'
-      - 'docker/*'
     tags:
       - 'v*'
+    paths:
+      - 'docker/**'
 
 env:
   REGISTRY: ghcr.io
