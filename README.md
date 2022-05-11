@@ -22,4 +22,12 @@ Connect to MySQL host:
 SELECT * FROM logging_event;
 ```
 
+## Query from the simple web interface
+- dev [paso.tol-dev.sanger.ac.uk](http://paso.tol-dev.sanger.ac.uk/)
+- prod [paso.tol.sanger.ac.uk](http://paso.tol.sanger.ac.uk/)
 
+## Query from a script
+
+```shell
+./log-query.sh gq2 'quay.io-biocontainers-samtools-1.15--h1170115_1-sha256:d310e040333c77b6e56999f8e4e98f9e615bc398f9bffad4036837bceaeef3db.sif' /nfs/users/nfs_g/gq2 samtool 
+```
