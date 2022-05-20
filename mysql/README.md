@@ -42,6 +42,13 @@ helm install software-tracker-db-tol bitnami/mysql -f mysql/software-tracker-db.
 --set "auth.username=toladmin" \
 --set "auth.password= " \
 
+# retrieve root password
+ROOT_PASSWORD=$(kubectl get secret --namespace pshpc tracker-db-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode)
+
+# retrieve non root password
+MYSQL_PASSWORD=$(kubectl get secret --namespace tol-software-tracking software-tracker-db-tol-mysql -o jsonpath="{.data.mysql-password}" | base64 --decode)
+
+# upgrade
 ROOT_PASSWORD=$(kubectl get secret --namespace pshpc tracker-db-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode)
 helm upgrade --namespace tol-software-tracking software-tracker-db-tol bitnami/mysql --set auth.rootPassword=$ROOT_PASSWORD
 
