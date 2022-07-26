@@ -15,17 +15,17 @@ def load_config_file(filename="config.json"):
 
 def connect_db(db,schema=''): # pragma: no cover
 	# Codecov uses app.test_db so no test can be run easily on travis
-    if app.config['TESTING']:
-    	return app.test_db
-    if schema == '':
-        schema = str(config['databases'][db]['schema'])
-    return mysql.connector.connect(
-        host=str(config['databases'][db]['host']),
-        user=str(config['databases'][db]['user']),
-        database=schema,
-        port=str(config['databases'][db]['port']),
-        passwd=str(config['databases'][db]['password'])
-    )
+	if app.config['TESTING']:
+		return app.test_db
+	if schema == '':
+		schema = str(config['databases'][db]['schema'])
+	return mysql.connector.connect(
+		host=str(config['databases'][db]['host']),
+		user=str(config['databases'][db]['user']),
+		database=schema,
+		port=str(config['databases'][db]['port']),
+		passwd=str(config['databases'][db]['password'])
+	)
 
 def get_current_timestamp():
 	now = datetime.now()
@@ -38,7 +38,9 @@ def save_to_database(json):
 	cursor = db.cursor(buffered=True)
 	cursor.execute(query, args)
 	db.commit()
-	return cursor.lastrowid
+	ret = cursor.lastrowid
+	db.close()
+	return ret
 
 def render_query_html(rows):
 	if len(rows) == 0:
@@ -94,7 +96,6 @@ def query(): # pragma: no cover
 		if agg in ['user','image','executable','year','month','week']:
 			aggregates.append ( agg )
 
-	db = connect_db('pathdb_ro')
 	sql = []
 	values = []
 	if user!='':
@@ -130,15 +131,17 @@ def query(): # pragma: no cover
 			elif agg == 'week':
 				sql_base += "week(`timestamp`) AS `week`,"
 		sql_base += "count(*) AS `count` "
-	sql_base += "FROM `logging_event`" ;
+	sql_base += "FROM `logging_event`"
 	if len(sql) > 0:
-		sql = sql_base + " WHERE " + ' AND '.join ( sql ) ;
+		sql = sql_base + " WHERE " + ' AND '.join ( sql )
 	else:
 		sql = sql_base
 	if len(aggregates) == 0:
 		sql += " LIMIT " + str(limit)
 	else:
 		sql += " GROUP BY " + ','.join ( aggregates )
+
+	db = connect_db('pathdb_ro')
 	cursor = db.cursor(buffered=True,dictionary=True)
 	cursor.execute(sql,values)
 	ret['data'] = []
@@ -146,6 +149,7 @@ def query(): # pragma: no cover
 		if 'timestamp' in row:
 			row['timestamp'] = datetime.strftime(row['timestamp'],'%Y-%m-%d %H:%M:%S')
 		ret['data'].append(row)
+	db.close()
 
 	if output_format == 'json':
 		return jsonify(ret)
