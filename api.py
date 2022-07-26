@@ -15,17 +15,17 @@ def load_config_file(filename="config.json"):
 
 def connect_db(db,schema=''): # pragma: no cover
 	# Codecov uses app.test_db so no test can be run easily on travis
-    if app.config['TESTING']:
-    	return app.test_db
-    if schema == '':
-        schema = str(config['databases'][db]['schema'])
-    return mysql.connector.connect(
-        host=str(config['databases'][db]['host']),
-        user=str(config['databases'][db]['user']),
-        database=schema,
-        port=str(config['databases'][db]['port']),
-        passwd=str(config['databases'][db]['password'])
-    )
+	if app.config['TESTING']:
+		return app.test_db
+	if schema == '':
+		schema = str(config['databases'][db]['schema'])
+	return mysql.connector.connect(
+		host=str(config['databases'][db]['host']),
+		user=str(config['databases'][db]['user']),
+		database=schema,
+		port=str(config['databases'][db]['port']),
+		passwd=str(config['databases'][db]['password'])
+	)
 
 def get_current_timestamp():
 	now = datetime.now()
