@@ -7,7 +7,7 @@ verify_ssl = true
 
 [packages]
 flask = "*"
-mysql-connector = "2.2.9"
+mysql-connector = "*"
 pytest = "*"
 
 [requires]
