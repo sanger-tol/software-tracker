@@ -12,7 +12,7 @@
    - [prod](software-tracker-prod-values.yaml)
 5. Helm install web application
     - [dev](software-tracker-dev-helm-readme.md)
-    - [prod](software-tracker-prod-helm-readme.mdl)
+    - [prod](software-tracker-prod-helm-readme.md)
 
 ## Query the database
 Connect to MySQL host:
