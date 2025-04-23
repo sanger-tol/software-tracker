@@ -28,6 +28,8 @@ initdbScripts:
     UNIQUE KEY `uuid` (`uuid`),
     KEY `user` (`user`),
     KEY `image` (`image`),
+    KEY `executable` (`executable`),
     KEY `timestamp` (`timestamp`),
-    KEY `user_2` (`user`,`image`,`timestamp`)
+    KEY `user_image` (`user`,`image`,`timestamp`),
+    KEY `user_executable` (`user`,`executable`,`timestamp`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
