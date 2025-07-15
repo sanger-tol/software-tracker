@@ -18,7 +18,7 @@ RUN set -ex; \
 
 USER $APP_USER
 
-RUN python3 -m pip install --user pipenv flask mysql-connector datetime gunicorn
+RUN python3 -m pip install --user pipenv flask mysql-connector-python datetime gunicorn
 ENV PATH=/home/$APP_USER/.local/bin:$PATH
 
 ARG APP_DIR=/home/$APP_USER/application

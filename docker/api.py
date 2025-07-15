@@ -24,8 +24,7 @@ def connect_db(db,schema=''): # pragma: no cover
 		user=str(config['databases'][db]['user']),
 		database=schema,
 		port=str(config['databases'][db]['port']),
-		passwd=str(config['databases'][db]['password']),
-		auth_plugin='mysql_native_password'
+		passwd=str(config['databases'][db]['password'])
 	)
 
 def get_current_timestamp():
