@@ -8,6 +8,9 @@ primary:
 auth:
   database: software_tracker
 
+image:
+  tag: 9.3.0
+
 initdbScripts:
   extra_users_table.sql: |
     CREATE USER IF NOT EXISTS "tol"@"%";

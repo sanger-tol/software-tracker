@@ -6,9 +6,9 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/sanger-tol/software-tracker
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "0.0.3"
 
 imagePullSecrets: []
 nameOverride: ""
