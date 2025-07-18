@@ -109,9 +109,21 @@ If the same version of database, we can copy the whole database file system.
 
 For different versions of database server, we can use `mysqldump` the whole database or one tables with column fileting, e.g.
 ```
-mysqldump -u root -p software_tracker > dump.sql
-mysqldump -u root -p software_tracker logging_event --where="timestamp >= '2024-01-01'"  > dump_partial.sql
+# compress the dump file may improve the performance
+mysqldump -u root -p --single-transaction --quick --skip-lock-tables software_tracker > dump.sql
+mysqldump -u root -p --single-transaction --quick --skip-lock-tables software_tracker logging_event --where="timestamp >= '2025-01-01'" | gzip > dump_partial.sql.gz
+
+# turn the following off, may improve the speed
+SET autocommit=0;
+SET unique_checks=0;
+SET foreign_key_checks=0;
 
 # It may take long time to restore the data, in this case, we can run it outside the pod. The login shell to the pod may be disconnected often.
-mysql -u root -p  -h 172.27.22.222 -P 31741 software_tracker < dump_partial.sql
+zcat dump_partial.sql.gz | mysql -u root -p  -h 172.27.22.222 -P 31741 software_tracker
+
+# turn back
+SET autocommit=1;
+SET unique_checks=1;
+SET foreign_key_checks=1;
+
 ```
