@@ -13,9 +13,9 @@ ingress:
   #      - chart-example.local
 
 database:
-  host: software-tracker-db-tol-mysql.tol-software-tracking.svc.cluster.local # 172.27.23.184
-  port:  3306 # 30098
-  roUser: tol
+  host: software-tracker-test-db.internal.sanger.ac.uk
+  port:  3350
+  roUser: tol_ro
   roPassword: ""
-  rwUser: toladmin
+  rwUser: tol
   rwPassword: ""
