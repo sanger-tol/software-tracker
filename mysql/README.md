@@ -1,19 +1,28 @@
-# BITNAMI MYSQL STACK HELM CHARTS
+# MySQL database
 
-## Links
+Either request one from Sanger's DBA team or use the Helm chart to create one.
+
+Switch to use DBA:
+* test database: software-tracker-test-db.internal.sanger.ac.uk:3350
+
+Please find the sql to create the database and tables from file [software-tracker-db.yaml](software-tracker-db.yaml)
+
+## BITNAMI MYSQL STACK HELM CHARTS
+
+### Links
 Helm: https://bitnami.com/stack/mysql/helm  
 Helm Source: https://github.com/bitnami/charts/tree/master/bitnami/mysql/#installing-the-chart  
 
 Docker: https://hub.docker.com/r/bitnami/mysql  
 Docker Source: https://github.com/bitnami/bitnami-docker-mysql
 
-## Add Helm Repo
+### Add Helm Repo
 ```
 helm repo list
 helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
 
-## Create a values file
+### Create a values file
 Default values here: https://github.com/bitnami/charts/blob/master/bitnami/mysql/values.yaml 
 
 Create a local one to override some values:  
@@ -23,10 +32,10 @@ There will be a `root` user created with password.
 Another user `toladmin` created with password, which values will be set in the command line.  
 And also a readonly user `tol`.
 
-## How to trigger additional initial SQL in Kubernetes
+### How to trigger additional initial SQL in Kubernetes
 The sqls added to the values as initdbScripts.
 
-## Install the services
+### Install the services
 ```
 k create ns tol-software-tracking (if not created yet)
 k config set-context --current --namespace=tol-software-tracking
@@ -56,7 +65,7 @@ helm uninstall software-tracker-db-tol
 k delete pvc data-tracker-db-mysql-0
 ```
 
-## Notes from Helm Installation
+### Notes from Helm Installation
 ```text
 
 CHART NAME: mysql
@@ -98,12 +107,12 @@ To upgrade this helm chart:
       helm upgrade --namespace tol-software-tracking software-tracker-db-tol bitnami/mysql --set auth.rootPassword=$ROOT_PASSWORD
 ```
 
-### Dev and Prod environments
+#### Dev and Prod environments
 
 We use the same setting for Dev and Prod environments, just switch the Kubernetes cluster and do Helm installation.
 
 
-## Data migration
+### Data migration
 
 If the same version of database, we can copy the whole database file system. 
 
