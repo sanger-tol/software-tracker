@@ -13,14 +13,16 @@ k config set-context --current --namespace=tol-software-tracking
 # add the password for user toladmin when running the command
 helm install software-tracker-app-tol software-tracker-app \
 -f software-tracker-dev-values.yaml \
---set "database.rwPassword= " \
+--set "database.rwPassword=" \
+--set "database.roPassword="
 --dry-run
 
 # helm install
 # add the password for user toladmin when running the command
 helm install software-tracker-app-tol software-tracker-app \
 -f software-tracker-dev-values.yaml \
---set "database.rwPassword= "
+--set "database.rwPassword=" \
+--set "database.roPassword="
 
 NOTES:
 1. Get the application URL by running these commands:
