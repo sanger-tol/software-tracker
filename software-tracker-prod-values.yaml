@@ -8,9 +8,9 @@ ingress:
   tls: []
 
 database:
-  host: software-tracker-db-tol-mysql.tol-software-tracking.svc.cluster.local
-  port:  3306 # 30098
-  roUser: tol
+  host: software-tracker-prod-db.internal.sanger.ac.uk
+  port:  3351
+  roUser: tol_ro
   roPassword: ""
-  rwUser: toladmin
+  rwUser: tol
   rwPassword: ""
