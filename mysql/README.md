@@ -2,8 +2,9 @@
 
 Either request one from Sanger's DBA team or use the Helm chart to create one.
 
-Switch to use DBA:
-* test database: software-tracker-test-db.internal.sanger.ac.uk:3350
+## Request Sanger DBA to create the database
+* test database: mysql://software-tracker-test-db.internal.sanger.ac.uk:3350/software_tracker
+* prod database: mysql://software-tracker-prod-db.internal.sanger.ac.uk:3351/software_tracker
 
 Please find the sql to create the database and tables from file [software-tracker-db.yaml](software-tracker-db.yaml)
 
