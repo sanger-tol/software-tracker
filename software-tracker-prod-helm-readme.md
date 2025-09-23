@@ -10,7 +10,7 @@ k create namespace tol-software-tracking (if not created yet)
 k config set-context --current --namespace=tol-software-tracking
 
 # test helm template
-# add the password for user rw user tol and ro user tol_ro when running the command
+# add the password for rw user tol and ro user tol_ro when running the command
 helm install software-tracker-app-tol software-tracker-app \
 -f software-tracker-prod-values.yaml \
 --set "database.rwPassword=" \
@@ -18,7 +18,7 @@ helm install software-tracker-app-tol software-tracker-app \
 --dry-run
 
 # helm install
-# add the password for user rw user tol and ro user tol_ro when running the command
+# add the password for rw user tol and ro user tol_ro when running the command
 helm install software-tracker-app-tol software-tracker-app \
 -f software-tracker-prod-values.yaml \
 --set "database.rwPassword= " \
