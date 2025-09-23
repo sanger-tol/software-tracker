@@ -2,7 +2,7 @@
 
 ## Set up software tracker database and web server in Kubernetes
 
-1. Helm install mysql, see [mysql](mysql/README.md)
+1. Setup mysql database, see [mysql](mysql/README.md)
 2. Create docker image for web application, see [docker](docker/README.md)
 3. Create dns, see [dns](dns/README.md):  
    - dev [paso.tol-dev.sanger.ac.uk](http://paso.tol-dev.sanger.ac.uk/)
@@ -16,8 +16,8 @@
 
 ## Query the database
 Connect to MySQL host:
-  - dev:  mysql -h 172.27.23.184 -P 30098 -u tol software_tracker
-  - prod: mysql -h 172.27.17.227 -P 30098 -u tol software_tracker
+  - dev:  mysql -h software-tracker-test-db.internal.sanger.ac.uk -P 3350 -u tol -p software_tracker
+  - prod: mysql -h software-tracker-prod-db.internal.sanger.ac.uk -P 3351 -u tol -p software_tracker
 ```
 SELECT * FROM logging_event;
 ```
