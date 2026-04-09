@@ -27,10 +27,9 @@ helm install software-tracker-app-tol software-tracker-app \
 NOTES:
 1. Get the application URL by running these commands:
 Ingress URL:
-  http://paso.tol-dev.sanger.ac.uk/
+  https://paso.tolit-dev.k8s.sanger.ac.uk/
 NodePort Service:
   export NODE_PORT=$(kubectl get --namespace tol-software-tracking -o jsonpath="{.spec.ports[0].nodePort}" services software-tracker-app-tol)
-  export NODE_IP=$(kubectl get nodes --namespace tol-software-tracking -o jsonpath="{.items[0].status.addresses[2].address}")
+  export NODE_IP=$(kubectl get nodes --namespace tol-software-tracking -o jsonpath="{.items[0].status.addresses[0].address}")
   echo http://$NODE_IP:$NODE_PORT
-
 ```

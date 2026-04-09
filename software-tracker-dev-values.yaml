@@ -1,16 +1,17 @@
 ingress:
   enabled: true
-  className: ""
-  annotations: {}
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: "paso.tol-dev.sanger.ac.uk"
+    - host: "paso.tolit-dev.k8s.sanger.ac.uk"
       paths:
         - path: /
           pathType: Prefix
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  tls:
+    - hosts:
+        - "paso.tolit-dev.k8s.sanger.ac.uk"
+      secretName: default-ingress-tls-secret
 
 database:
   host: software-tracker-test-db.internal.sanger.ac.uk
