@@ -1,11 +1,15 @@
 ingress:
   enabled: true
+  className: "nginx"
   hosts:
     - host: "paso.tol.sanger.ac.uk"
       paths:
         - path: /
           pathType: Prefix
-  tls: []
+  tls:
+    - hosts:
+        - "paso.tol.sanger.ac.uk"
+      secretName: tol-tls-secret
 
 database:
   host: software-tracker-prod-db.internal.sanger.ac.uk
