@@ -34,5 +34,7 @@ initdbScripts:
     KEY `executable` (`executable`),
     KEY `timestamp` (`timestamp`),
     KEY `user_image` (`user`,`image`,`timestamp`),
-    KEY `user_executable` (`user`,`executable`,`timestamp`)
+    KEY `user_executable` (`user`,`executable`,`timestamp`),
+    KEY `user_timestamp` (`user`,`timestamp`),
+    KEY `timestamp_image` (`timestamp`,`image`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
